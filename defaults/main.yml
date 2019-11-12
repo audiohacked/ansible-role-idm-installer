@@ -1,0 +1,19 @@
+---
+# defaults file for idm
+idm_deployment_host: ""
+idm_deployment_domain: ""
+idm_deployment_ds_passwd: ""
+idm_deployment_admin_passwd: ""
+
+idm_deployment_installer_args: ""
+
+idm_deployment_answers:
+  "ds-password":    "{{ idm_deployment_ds_passwd }}"
+  "admin-password": "{{ idm_deployment_admin_passwd }}"
+  "hostname":       "{{ idm_deployment_host }}"
+  "domain":         "{{ idm_deployment_domain }}"
+  "realm":          "{{ idm_deployment_domain | upper }}"
+
+idm_deployment_answers_bools:
+  "setup-dns": True
+  "allow_zone_overlap": False
