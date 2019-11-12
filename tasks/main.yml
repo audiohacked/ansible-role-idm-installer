@@ -1,18 +1,22 @@
 ---
 # tasks file for idm
 
-- name: Generate Installer command - First Pass
-  set_fact:
-    idm_deployment_installer_args: "{{ idm_deployment_installer_args }}
-      --{{ item.key }}='{{ item.value }}'"
-  with_dict: "{{ idm_deployment_answers }}"
+# - name: Generate Installer command - First Pass
+#   set_fact:
+#     idm_deployment_installer_args: "{{ idm_deployment_installer_args }}
+#       --{{ item.key }}='{{ item.value }}'"
+#   with_dict: "{{ idm_deployment_answers }}"
 
-- name: Generate Installer command - Second Pass
+# - name: Generate Installer command - Second Pass
+#   set_fact:
+#     idm_deployment_installer_args: "{{ idm_deployment_installer_args }}
+#       --{{ item.key }}"
+#   with_dict: "{{ idm_deployment_answers_bools }}"
+#   when: item.value
+
+- name: Generate Installer command arguments
   set_fact:
-    idm_deployment_installer_args: "{{ idm_deployment_installer_args }}
-      --{{ item.key }}"
-  with_dict: "{{ idm_deployment_answers_bools }}"
-  when: item.value
+    idm_deployment_installer_args: "{{ idm_deployment_answers | to_cmd_args | join(' ') }}"
 
 - name: Run Identity Management setup
   command: "ipa-server-install {{ idm_deployment_installer_args }}"
@@ -21,4 +25,3 @@
   tags:
     - idm
     - install
-
